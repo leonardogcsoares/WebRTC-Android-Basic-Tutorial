@@ -45,16 +45,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCreateSuccess(SessionDescription sessionDescription) {
             Log.d(TAG, "localPeerConnection onCreateSuccess type: " + sessionDescription.type.toString());
-            String desc = "";
 
+            Log.d("TAG", "Session descrpt. size: " + sessionDescription.description.length());
             if (sessionDescription.type == SessionDescription.Type.OFFER) {
 
                 localPeerConnection.setLocalDescription(localSdpObserver, sessionDescription);
                 remotePeerConnection.setRemoteDescription(remoteSdpObserver, sessionDescription);
-
-
                 Log.d(TAG, String.valueOf("localSdpObserver is same session description: " + localPeerConnection.getLocalDescription().description.equals(remotePeerConnection.getRemoteDescription().description)));
-
             }
         }
 
@@ -86,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 localPeerConnection.setRemoteDescription(localSdpObserver, sessionDescription);
+                Log.d(TAG, String.valueOf(localPeerConnection.signalingState()));
                 remotePeerConnection.setLocalDescription(remoteSdpObserver, sessionDescription);
 
                 Log.d(TAG, String.valueOf("remoteSdpObserver is same session description: " + localPeerConnection.getRemoteDescription().description.equals(remotePeerConnection.getLocalDescription().description)));
@@ -147,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
                 mediaConstraints,
                 localPCObserver
         );
+        Log.d(TAG, "creating the data channel");
+        localDataChannelObserver = new LocalDataChannelObserver();
+        remoteDataChannelObserver = new RemoteDataChannelObserver();
 
         remotePCObserver = new RemotePCObserver();
         remotePeerConnection = peerConnectionFactory.createPeerConnection(
@@ -155,17 +156,18 @@ public class MainActivity extends AppCompatActivity {
                 remotePCObserver
         );
 
-        localDataChannelObserver = new LocalDataChannelObserver();
-        remoteDataChannelObserver = new RemoteDataChannelObserver();
-
-
-        Log.d(TAG, "creating the data channel");
-        sendChannel = remotePeerConnection.createDataChannel("sendDataChannel", new DataChannel.Init());
 
         Log.d(TAG, "initialized both local and remote peerConnections");
         localPeerConnection.createOffer(localSdpObserver, mediaConstraints);
-        remotePeerConnection.createAnswer(remoteSdpObserver, new MediaConstraints());
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(TAG, "Answer created");
+        remotePeerConnection.createAnswer(remoteSdpObserver, new MediaConstraints());
     }
 
     @Override
