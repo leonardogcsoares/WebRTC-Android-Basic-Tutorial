@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "demo.leonardogcsoares.webrtc"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -17,11 +17,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'io.pristine:libjingle:11139@aar'
+    compile 'com.android.support:design:23.2.1'
+    compile 'io.nats:jnats:0.3.1'
 }
