@@ -12,13 +12,15 @@ import io.nats.client.Connection;
 import io.nats.client.ConnectionFactory;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
+import soares.leonardo.com.greta.signaling.Connected;
+import soares.leonardo.com.greta.signaling.Greta;
+import soares.leonardo.com.greta.signaling.Subscriber;
 
 
 public class PubSubActivity extends AppCompatActivity {
 
     private static final String TAG = "PubSubActivity";
-    private ConnectionFactory natsConnectionFactory;
-    private Connection natsConnection;
+    int i=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,44 +29,44 @@ public class PubSubActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        natsConnectionFactory = new ConnectionFactory("nats://demo.nats.io:4222");
+        Greta.initializeGretaConnection("someRandomToken");
+
+        Greta.Signaling.connected(new Connected() {
+
+            @Override
+            public void onConnection() {
+                Log.d(TAG, "Greta Signaling finished connecting");
+                Greta.Signaling.subscribe("channel", new Subscriber() {
+                    @Override
+                    public void messageReceived(String message) {
+
+                        Log.d(TAG, "Subscribe message received: " + message);
+                    }
+                });
+
+                Greta.Signaling.publish("channel", "This is a new publish message");
+            }
+        });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    natsConnection = natsConnectionFactory.createConnection();
-
-                    Log.d(TAG, "natsConnection: " + natsConnection.toString());
-                } catch (IOException | TimeoutException e) {
-                    e.printStackTrace();
-                }
-
-                natsConnection.subscribe("foo-leonardogcsoares93", new MessageHandler() {
-                    @Override
-                    public void onMessage(Message msg) {
-                        Log.d(TAG, "Received a message: " + msg.getData());
-                    }
-                });
-
-                natsConnection.publish("foo-leonardogcsoares93", "Hello World".getBytes());
-            }
-        };
-
-        thread.start();
-
+//        Greta.Signaling.subscribe("channel", new Subscriber() {
+//            @Override
+//            public void messageReceived(String message) {
+//                Log.d(TAG, "Subscribe message received: " + message);
+//            }
+//        });
+//
+//        Greta.Signaling.publish("channel", "This is a publish message");
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (natsConnection != null)
-            natsConnection.close();
     }
 }
