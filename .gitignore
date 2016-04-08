@@ -5,4 +5,5 @@
 .DS_Store
 /build
 /captures
+/greta.signaling
 /greta.signaling/*
