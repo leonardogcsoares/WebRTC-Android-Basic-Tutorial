@@ -41,16 +41,14 @@ public class PubSubActivity extends AppCompatActivity {
                     natsConnection = natsConnectionFactory.createConnection();
 
                     Log.d(TAG, "natsConnection: " + natsConnection.toString());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (TimeoutException e) {
+                } catch (IOException | TimeoutException e) {
                     e.printStackTrace();
                 }
 
                 natsConnection.subscribe("foo-leonardogcsoares93", new MessageHandler() {
                     @Override
                     public void onMessage(Message msg) {
-                        Log.d(TAG, "Received a message: " + msg.toString());
+                        Log.d(TAG, "Received a message: " + msg.getData());
                     }
                 });
 

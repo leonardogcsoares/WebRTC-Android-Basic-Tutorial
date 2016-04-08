@@ -29,7 +29,6 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
     private PeerConnection localPeerConnection;
     private PeerConnection remotePeerConnection;
 
-
     private DataChannel sendChannel;
     private DataChannel receiveChannel;
 
