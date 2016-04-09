@@ -10,8 +10,8 @@ and exchange data between using the DataChannel. This will thus give you the bas
 
 ###Getting Started
 Before developing Android apps that use native WebRTC you need the compiled code. [WebRTC.org](https://webrtc.org/native-code/android/) offers
-a barebones guide to obtaining the compiled Java code. But a simpler way to get this code is to use the library offered by [IO.Pristine](http://mvnrepository.com/artifact/io.pristine/libjingle).
-This is done by placing the following inside `build.gradle` for the app.
+a barebones guide to obtaining the compiled Java code. But a simpler and faster way to get this library is to use the shortcut offered by [io.pristine](http://mvnrepository.com/artifact/io.pristine/libjingle).
+This is done by placing the following inside the `build.gradle` of the app.
 ```
 compile 'io.pristine:libjingle:_version_@aar'
 ```
