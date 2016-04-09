@@ -22,11 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".LocalPeerConnectionActivity">
-        </activity>
-        <activity
-            android:name=".PubSubActivity"
-            android:label="@string/title_activity_pub_sub"
-            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
