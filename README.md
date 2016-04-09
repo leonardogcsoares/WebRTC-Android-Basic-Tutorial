@@ -1,5 +1,5 @@
 # WebRTC Android Basic Tutorial
->Using the DataChannel to communicate between two peers on one Android device
+>**Using the DataChannel to communicate between two peers on one Android device**
 
 As I was searching for tutorials using WebRTC on native Android I found many that either taught you to use a specific SDK or taught 
 you only the basics of Video/Audio chat clients. What I really wanted was a tutorial that taught you the basics of using the DataChannel
@@ -7,6 +7,11 @@ on Android to transmit data between peers. Since I found none, I decided to make
 
 Following this tutorial or looking through the code you will learn how to use the PeerConnection API to create two peers inside an Android
 and exchange data between using the DataChannel. This will thus give you the basics to implement more complicated and interesting applications.
+
+>**Samples used as basis for this tutorial**
+
+- [PeerConnection Sample](https://webrtc.github.io/samples/src/content/peerconnection/pc1/)
+- [Generate and Transfer Data](http://webrtc.github.io/samples/src/content/datachannel/datatransfer/)
 
 ###Getting Started
 Before developing Android apps that use native WebRTC you need the compiled code. [WebRTC.org](https://webrtc.org/native-code/android/) offers
