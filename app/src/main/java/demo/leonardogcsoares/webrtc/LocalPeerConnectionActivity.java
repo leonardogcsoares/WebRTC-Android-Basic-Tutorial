@@ -3,6 +3,11 @@ package demo.leonardogcsoares.webrtc;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 import org.json.JSONException;
@@ -19,6 +24,8 @@ import org.webrtc.SessionDescription;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LocalPeerConnectionActivity extends AppCompatActivity {
 
@@ -28,6 +35,14 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
 
     private PeerConnection localPeerConnection;
     private PeerConnection remotePeerConnection;
+
+    private String localMessageReceived = " ";
+    private String remoteMessageReceived = " ";
+
+    private String localLastMessageReceived = " ";
+    private String remoteLastMessageReceived = " ";
+
+
 
     private DataChannel sendChannel;
     private DataChannel receiveChannel;
@@ -277,6 +292,7 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
     };
 
     DataChannel.Observer localDataChannelObserver = new DataChannel.Observer() {
+
         @Override
         public void onBufferedAmountChange(long l) {
 
@@ -286,11 +302,11 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
         public void onStateChange() {
             Log.d(TAG, "localDataChannelObserver onStateChange() " + sendChannel.state().name());
 
-            if (sendChannel.state() == DataChannel.State.OPEN) {
-                String data = "from sendChannel to receiveChannel";
-                ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
-                sendChannel.send(new DataChannel.Buffer(buffer, false));
-            }
+//            if (sendChannel.state() == DataChannel.State.OPEN) {
+//                String data = "from sendChannel to receiveChannel";
+//                ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
+//                sendChannel.send(new DataChannel.Buffer(buffer, false));
+//            }
         }
 
         @Override
@@ -301,9 +317,10 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
                 int limit = buffer.data.limit();
                 byte[] datas = new byte[limit];
                 buffer.data.get(datas);
-                String tmp = new String(datas);
-                Log.d(TAG, tmp);
+                localMessageReceived = new String(datas);
+
             }
+
         }
     };
 
@@ -311,17 +328,18 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
         @Override
         public void onBufferedAmountChange(long l) {
 
+
         }
 
         @Override
         public void onStateChange() {
             Log.d(TAG, "remoteDataChannel onStateChange() " + receiveChannel.state().name());
 
-            if (receiveChannel.state() == DataChannel.State.OPEN) {
-                String data = "from receiveChannel to sendChannel";
-                ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
-                receiveChannel.send(new DataChannel.Buffer(buffer, false));
-            }
+//            if (receiveChannel.state() == DataChannel.State.OPEN) {
+//                String data = "from receiveChannel to sendChannel";
+//                ByteBuffer buffer = ByteBuffer.wrap(data.getBytes());
+//                receiveChannel.send(new DataChannel.Buffer(buffer, false));
+//            }
 
         }
 
@@ -333,10 +351,12 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
                 int limit = buffer.data.limit();
                 byte[] datas = new byte[limit];
                 buffer.data.get(datas);
-                String tmp = new String(datas);
-                Log.d(TAG, tmp);
+                remoteMessageReceived = new String(datas);
+
             }
         }
+
+
     };
 
     @Override
@@ -372,6 +392,75 @@ public class LocalPeerConnectionActivity extends AppCompatActivity {
         sendChannel.registerObserver(localDataChannelObserver);
 
         localPeerConnection.createOffer(localSessionObserver, constraints);
+
+        setSendButtonListeners();
+
+
+    }
+
+    private void setSendButtonListeners() {
+
+        Button localSend = (Button) findViewById(R.id.localPeerButtonSend);
+        assert localSend != null;
+
+        localSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText messageET = (EditText) findViewById(R.id.localPeerSendMessageEditText);
+                assert messageET != null;
+
+                String message = messageET.getText().toString();
+                if (!message.isEmpty()) {
+                    if (sendChannel.state() == DataChannel.State.OPEN) {
+                        ByteBuffer buffer = ByteBuffer.wrap(message.getBytes());
+                        sendChannel.send(new DataChannel.Buffer(buffer, false));
+                    }
+                }
+            }
+        });
+
+
+        Button remoteSend = (Button) findViewById(R.id.remotePeerSendButton);
+        assert remoteSend != null;
+
+        remoteSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText messageET = (EditText) findViewById(R.id.remotePeerSendMessageEditText);
+                assert messageET != null;
+
+                String message = messageET.getText().toString();
+                if (!message.isEmpty()) {
+                    if (receiveChannel.state() == DataChannel.State.OPEN) {
+                        ByteBuffer buffer = ByteBuffer.wrap(message.getBytes());
+                        receiveChannel.send(new DataChannel.Buffer(buffer, false));
+                    }
+                }
+            }
+        });
+
+        Timer timer = new Timer("Timer");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!localMessageReceived.equals(localLastMessageReceived)) {
+                            TextView messageReceived = (TextView) findViewById(R.id.localPeerMessageReceived);
+                            messageReceived.setText(localMessageReceived);
+                            localLastMessageReceived = localMessageReceived;
+                        }
+
+                        if (!remoteMessageReceived.equals(remoteLastMessageReceived)) {
+                            TextView messageReceived = (TextView) findViewById(R.id.remotePeerMessageReceived);
+                            messageReceived.setText(remoteMessageReceived);
+                            remoteLastMessageReceived = remoteMessageReceived;
+                        }
+                    }
+                });
+            }
+        }, 0, 1000);
     }
 
     @Override

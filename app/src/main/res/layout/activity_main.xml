@@ -1,11 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".LocalPeerConnectionActivity">
+    android:layout_height="match_parent"
+        tools:context=".LocalPeerConnectionActivity"
+    android:orientation="vertical"
+    >
 
-    <TextView android:text="Hello World!" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="8dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/local_peer_title"
+                android:id="@+id/localPeerTitle"
+                android:textSize="18sp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:id="@+id/simpleDividerLocal"
+                android:background="@android:color/darker_gray"
+                android:layout_below="@id/localPeerTitle"/>
+
+            <EditText
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:id="@+id/localPeerSendMessageEditText"
+                android:layout_below="@id/simpleDividerLocal"
+                android:hint="@string/local_peer_message_hint"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/localPeerButtonSend"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:text="@string/send"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/message_received"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/localPeerMessageReceived"
+            android:paddingTop="16dp"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#2196F3"
+        android:orientation="vertical"
+        android:padding="8dp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/remote_peer_title"
+                android:id="@+id/remotePeerTitle"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:id="@+id/simpleDivider"
+                android:background="@android:color/white"
+                android:layout_below="@id/remotePeerTitle"/>
+
+            <EditText
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:id="@+id/remotePeerSendMessageEditText"
+                android:layout_below="@id/simpleDivider"
+                android:hint="@string/remote_peer_message_hint"
+                android:textColorHint="@android:color/white"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/remotePeerSendButton"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:text="@string/send"
+                />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/message_received"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/remotePeerMessageReceived"
+            android:paddingTop="16dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

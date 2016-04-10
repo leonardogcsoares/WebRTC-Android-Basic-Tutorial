@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">WebRTC</string>
     <string name="title_activity_pub_sub">PubSubActivity</string>
+    <string name="remote_peer_title">Remote Peer</string>
+    <string name="remote_peer_message_hint">Type here a message to send to the Local peer.</string>
+    <string name="local_peer_title">Local Peer</string>
+    <string name="local_peer_message_hint">Type here message to send to Remote Peer.</string>
+    <string name="message_received">Last Message:</string>
+    <string name="send">Send</string>
 </resources>

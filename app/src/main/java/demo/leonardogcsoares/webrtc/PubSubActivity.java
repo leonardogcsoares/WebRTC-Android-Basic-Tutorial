@@ -31,22 +31,22 @@
 //
 //        Greta.initializeGretaConnection("someRandomToken");
 //
-//        Greta.Signaling.connected(new Connected() {
-//
-//            @Override
-//            public void onConnection() {
-//                Log.d(TAG, "Greta Signaling finished connecting");
-//                Greta.Signaling.subscribe("channel", new Subscriber() {
-//                    @Override
-//                    public void messageReceived(String message) {
-//
-//                        Log.d(TAG, "Subscribe message received: " + message);
-//                    }
-//                });
-//
-//                Greta.Signaling.publish("channel", "This is a new publish message");
-//            }
-//        });
+      //  Greta.Signaling.connected(new Connected() {
+       //
+      //      @Override
+      //      public void onConnection() {
+      //          Log.d(TAG, "Greta Signaling finished connecting");
+      //          Greta.Signaling.subscribe("channel", new Subscriber() {
+      //              @Override
+      //              public void messageReceived(String message) {
+       //
+      //                  Log.d(TAG, "Subscribe message received: " + message);
+      //              }
+      //          });
+       //
+      //          Greta.Signaling.publish("channel", "This is a new publish message");
+      //      }
+      //  });
 //
 //    }
 //
