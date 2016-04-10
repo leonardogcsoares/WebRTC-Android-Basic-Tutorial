@@ -12,7 +12,6 @@ In no way do I intend in this tutorial, to teach you the basics of how WebRTC wo
 - [WebRTC in the real world: STUN, TURN and signaling] (http://www.html5rocks.com/en/tutorials/webrtc/infrastructure/)
 
 >**Samples used as basis for this tutorial**
-
 - [PeerConnection Sample](https://webrtc.github.io/samples/src/content/peerconnection/pc1/)
 - [Generate and Transfer Data](http://webrtc.github.io/samples/src/content/datachannel/datatransfer/)
 
